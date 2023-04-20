@@ -15,6 +15,15 @@ def get_new_cars(df, year):
     df_result.to_csv('new_cars.csv')
     print('New cars selected sucessfully')
     return df_result
+
+
+def get_cars_had_accidents_not_nan(df):
+    df_true = get_cars_had_accidents(df, True)
+    df_false = get_cars_had_accidents(df, False)
+    frames = [df_true, df_false]
+    result = pd.concat(frames)
+    result.to_csv('cars_had_accidents_not_nan.csv')
+    return result
     
     
 def get_cars_had_accidents(df, has_accidents):
@@ -41,14 +50,33 @@ def get_params(x, y):
 class brand(object):
     name = ''
     price = np.array([])
+    middle_price = 0
     power = np.array([])
+    days_on_market = np.array([])
+    middle_days_on_market = 0
+    has_accidents = np.array([])
+    has_accidents_percent = 0
 
     def __init__(self, name):
         self.name = name
 
-    def add_values(self, price, power):
+    def calculate_params(self):
+        self.middle_price = np.sum(self.price)/self.price.size
+        self.middle_days_on_market = np.sum(self.days_on_market)/self.days_on_market.size
+        self.has_accidents_percent = np.count_nonzero(self.has_accidents == True)/self.has_accidents.size
+        print(self.name, ',' , self.middle_price, ',', self.middle_days_on_market, ',', self.has_accidents_percent)
+
+    def add_values_price_power(self, price, power):
         self.price = np.append(self.price, [price])
         self.power = np.append(self.power, [power])
+
+    def add_values_price(self, price):
+        self.price = np.append(self.price, [price])
+
+    def add_values_has_accidents(self, has_accidents):
+        self.has_accidents = np.append(self.has_accidents, [has_accidents])
+    def add_values_days_on_market(self, days_on_market):
+        self.days_on_market = np.append(self.days_on_market, [days_on_market])
 
     def make_plots(self, path):
         temp = np.array([])
@@ -86,9 +114,11 @@ class brand(object):
         plt.savefig(path + self.name + ".png", dpi=100)
         #plt.show()
 
+#def process_data_brand_days_on_market(df):
+#    total_list[]
 
 
-def process_data(df):
+def process_data_price_horsepowers_relation(df):
     total_list = []
     brands_in_list = []
     for index, row in df.iterrows():
@@ -106,17 +136,44 @@ def process_data(df):
                 total_list.append(brand(brand_name))
                 brands_in_list.append(brand_name)
 
-            total_list[brands_in_list.index(brand_name)].add_values(price, horsepowers)
+            total_list[brands_in_list.index(brand_name)].add_values_price_power(price, horsepowers)
 
         print(' ')
     return total_list
+
+
+def process_data_brand_info(df):
+    total_list = []
+    brands_in_list = []
+    for index, row in df.iterrows():
+        brand_name = row['make_name']
+        days_on_market = float(row['daysonmarket'])
+        has_accidents = bool(row['has_accidents'])
+        price = float(row['price'])
+        print(str(index),',',brand_name,',', price, ",", days_on_market, ",", has_accidents)
+        #if pd.isna(days_on_market) and pd.isna(has_accidents) and pd.isna(price):
+
+        if not brand_name in brands_in_list:
+            total_list.append(brand(brand_name))
+            brands_in_list.append(brand_name)
+
+        total_list[brands_in_list.index(brand_name)].add_values_has_accidents(has_accidents)
+        total_list[brands_in_list.index(brand_name)].add_values_price(price)
+        total_list[brands_in_list.index(brand_name)].add_values_days_on_market(days_on_market)
+
+    print('brand , middle_price , middle_days_on_market , has_accidents_percent')
+    for x in total_list:
+        x.calculate_params()
+
+    return total_list
+
 
 
 def make_graphs_price_to_horsepowers(filename_open, result_path):
     df = pd.read_csv(filename_open)
     print('Read sucessfully')
     df = df.reset_index()
-    total_list = process_data(df)
+    total_list = process_data_price_horsepowers_relation(df)
     print('total list ready')
 
     for object in total_list:
@@ -128,8 +185,11 @@ def make_graphs_price_to_horsepowers(filename_open, result_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
+    #make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
     #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
+    df = pd.read_csv('cars_had_accidents_not_nan.csv')
+    print('Read sucessfully')
+    process_data_brand_info(df)
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
