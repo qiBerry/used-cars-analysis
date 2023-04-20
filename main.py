@@ -26,7 +26,18 @@ def get_cars_had_accidents(df, has_accidents):
     print('New cars selected sucessfully')
     return df_result
 
-#classs for 3 hypothesis
+
+def calculate_slope(x, y):
+    mx = x - x.mean()
+    my = y - y.mean()
+    return sum(mx * my) / sum(mx ** 2)
+
+
+def get_params(x, y):
+    a = calculate_slope(x, y)
+    b = y.mean() - a * x.mean()
+    return a, b
+
 class brand(object):
     name = ''
     price = np.array([])
@@ -40,21 +51,41 @@ class brand(object):
         self.power = np.append(self.power, [power])
 
     def make_plots(self, path):
+        temp = np.array([])
+
+        #делим на 1000, чтобы получить значения в тысячах долларов
+        for x in self.price:
+            temp = np.append(temp, [float(x)/1000.0])
+        self.price = temp
+
+        #Кроме того, чтобы избежать излишней волатильности цены, мы ее прологарифмируем
+        #self.price = np.log(self.price)
+
         c = np.rec.fromarrays([self.price, self.power])
         c.sort()
 
         self.price = c.f0
         self.power = c.f1
 
+        a, b = get_params(self.price, self.power)
+        equation_str = 'y = ' + str(a) + '*x + ' + str(b)
+        equation = a*self.price + b
+
         fig, ax = plt.subplots()
-        ax.plot(self.price, self.power)
+        plt.xlabel('Price ($)')
+        plt.ylabel('Power (Horsepowers)')
+        plt.title(self.name + ' | ' + equation_str)
+        #ax.set(xlabel='Price ($)', ylabel='Power (Horsepowers)',
+        #       title=self.name + ' | ' + equation_str)
+        plt.scatter(self.price, self.power)
+        plt.plot(self.price, equation, color='red')
 
-        ax.set(xlabel='Price ($)', ylabel='Power (Horsepowers)',
-               title=self.name + ' - the ratio of horsepowers to price')
-        ax.grid()
+        #plt.fig.set_size_inches(60, 15)
+        figure = plt.gcf()
+        figure.set_size_inches(20, 8)
+        plt.savefig(path + self.name + ".png", dpi=100)
+        #plt.show()
 
-        fig.set_size_inches(400, 100)
-        fig.savefig(path + self.name + ".png", dpi=100)
 
 
 def process_data(df):
@@ -69,7 +100,7 @@ def process_data(df):
 
         if str(horsepowers) != 'nan':
             print('ok data')
-            horsepowers = horsepowers[0:horsepowers.index(' ')]
+            horsepowers = float(horsepowers[0:horsepowers.index(' ')])
             if not brand_name in brands_in_list:
                 print(brand_name)
                 total_list.append(brand(brand_name))
@@ -97,8 +128,8 @@ def make_graphs_price_to_horsepowers(filename_open, result_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
-    make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars/')
+    make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_linear_regression2/')
+    #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
