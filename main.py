@@ -59,7 +59,7 @@ class brand(object):
         self.price = temp
 
         #Кроме того, чтобы избежать излишней волатильности цены, мы ее прологарифмируем
-        #self.price = np.log(self.price)
+        self.price = np.log(self.price)
 
         c = np.rec.fromarrays([self.price, self.power])
         c.sort()
@@ -72,7 +72,7 @@ class brand(object):
         equation = a*self.price + b
 
         fig, ax = plt.subplots()
-        plt.xlabel('Price ($)')
+        plt.xlabel('Price (thousands of $)')
         plt.ylabel('Power (Horsepowers)')
         plt.title(self.name + ' | ' + equation_str)
         #ax.set(xlabel='Price ($)', ylabel='Power (Horsepowers)',
@@ -128,7 +128,7 @@ def make_graphs_price_to_horsepowers(filename_open, result_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_linear_regression2/')
+    make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
     #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
 
 
