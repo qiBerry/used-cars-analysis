@@ -95,6 +95,9 @@ class brand(object):
         self.price = c.f0
         self.power = c.f1
 
+        temp_pd = pd.DataFrame({'price':self.price, 'power':self.power})
+        temp_pd.to_csv(path + self.name + ".csv")
+
         a, b = get_params(self.price, self.power)
         equation_str = 'y = ' + str(a) + '*x + ' + str(b)
         equation = a*self.price + b
@@ -184,7 +187,10 @@ def make_graphs_price_to_horsepowers(df, result_path):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     from sqlalchemy import create_engine
+    import sys
+
     engine = create_engine('postgresql://admin:pgpwd4project@localhost:5432/main')
+    np.set_printoptions(threshold=sys.maxsize)
 
     #make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
     #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
@@ -195,7 +201,7 @@ if __name__ == '__main__':
     #new_df.to_csv('export2.csv')
     #process_data_brand_info(df)
     df_no_accidents = get_cars_had_accidents(df, False)
-    #make_graphs_price_to_horsepowers(df_no_accidents, 'test/')
-    process_data_brand_info(df)
+    make_graphs_price_to_horsepowers(df_no_accidents, 'new_output/')
+    #process_data_brand_info(df)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
