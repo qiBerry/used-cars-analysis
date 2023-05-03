@@ -128,7 +128,7 @@ def process_data_price_horsepowers_relation(df):
 
         print(brand_name, ' - ', horsepowers, ' - ', price)
 
-        if str(horsepowers) != 'nan':
+        if str(horsepowers) != 'None':
             print('ok data')
             horsepowers = float(horsepowers[0:horsepowers.index(' ')])
             if not brand_name in brands_in_list:
@@ -169,9 +169,7 @@ def process_data_brand_info(df):
 
 
 
-def make_graphs_price_to_horsepowers(filename_open, result_path):
-    df = pd.read_csv(filename_open)
-    print('Read sucessfully')
+def make_graphs_price_to_horsepowers(df, result_path):
     df = df.reset_index()
     total_list = process_data_price_horsepowers_relation(df)
     print('total list ready')
@@ -185,11 +183,19 @@ def make_graphs_price_to_horsepowers(filename_open, result_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    from sqlalchemy import create_engine
+    engine = create_engine('postgresql://admin:pgpwd4project@localhost:5432/main')
+
     #make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
     #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
     df = pd.read_csv('cars_had_accidents_not_nan.csv')
+    df = pd.read_sql_query('select * from "cars"',con=engine)
     print('Read sucessfully')
+    #new_df = df.filter(['id','make_name','power','price','daysonmarket','has_accidents'], axis=1)
+    #new_df.to_csv('export2.csv')
+    #process_data_brand_info(df)
+    df_no_accidents = get_cars_had_accidents(df, False)
+    #make_graphs_price_to_horsepowers(df_no_accidents, 'test/')
     process_data_brand_info(df)
-
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
