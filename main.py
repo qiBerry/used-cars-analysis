@@ -87,7 +87,7 @@ class brand(object):
         self.price = temp
 
         #Кроме того, чтобы избежать излишней волатильности цены, мы ее прологарифмируем
-        self.price = np.log(self.price)
+        #self.price = np.log(self.price)
 
         c = np.rec.fromarrays([self.price, self.power])
         c.sort()
@@ -192,16 +192,16 @@ if __name__ == '__main__':
     engine = create_engine('postgresql://admin:pgpwd4project@localhost:5432/main')
     np.set_printoptions(threshold=sys.maxsize)
 
-    #make_graphs_price_to_horsepowers('had_no_accidents_cars.csv', 'plots_new_cars_no_accidents/')
-    #make_graphs_price_to_horsepowers('new_cars.csv', 'plots_new_cars_linear_regression/')
     df = pd.read_csv('cars_had_accidents_not_nan.csv')
     df = pd.read_sql_query('select * from "cars"',con=engine)
     print('Read sucessfully')
-    #new_df = df.filter(['id','make_name','power','price','daysonmarket','has_accidents'], axis=1)
-    #new_df.to_csv('export2.csv')
-    #process_data_brand_info(df)
+
     df_no_accidents = get_cars_had_accidents(df, False)
     make_graphs_price_to_horsepowers(df_no_accidents, 'new_output/')
-    #process_data_brand_info(df)
+    process_data_brand_info(df)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    #getting csv export file for df
+    # new_df = df.filter(['id','make_name','power','price','daysonmarket','has_accidents'], axis=1)
+    # new_df.to_csv('export2.csv')
+    # process_data_brand_info(df)
+
