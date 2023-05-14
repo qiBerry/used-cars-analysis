@@ -1,0 +1,32 @@
+[2023-05-13T19:30:54.703+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hypothesis1_2.insert_data manual__2023-05-13T19:30:30.932007+00:00 [queued]>
+[2023-05-13T19:30:54.721+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hypothesis1_2.insert_data manual__2023-05-13T19:30:30.932007+00:00 [queued]>
+[2023-05-13T19:30:54.723+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 1
+[2023-05-13T19:30:54.749+0000] {taskinstance.py:1350} INFO - Executing <Task(PythonOperator): insert_data> on 2023-05-13 19:30:30.932007+00:00
+[2023-05-13T19:30:54.760+0000] {standard_task_runner.py:57} INFO - Started process 897 to run task
+[2023-05-13T19:30:54.778+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'hypothesis1_2', 'insert_data', 'manual__2023-05-13T19:30:30.932007+00:00', '--job-id', '32', '--raw', '--subdir', 'DAGS_FOLDER/dag_hypothesis1_2.py', '--cfg-path', '/tmp/tmpeinpmlql']
+[2023-05-13T19:30:54.787+0000] {standard_task_runner.py:85} INFO - Job 32: Subtask insert_data
+[2023-05-13T19:30:54.912+0000] {task_command.py:410} INFO - Running <TaskInstance: hypothesis1_2.insert_data manual__2023-05-13T19:30:30.932007+00:00 [running]> on host 9a745d3878c0
+[2023-05-13T19:30:55.066+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hypothesis1_2' AIRFLOW_CTX_TASK_ID='insert_data' AIRFLOW_CTX_EXECUTION_DATE='2023-05-13T19:30:30.932007+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-05-13T19:30:30.932007+00:00'
+[2023-05-13T19:30:55.072+0000] {logging_mixin.py:149} INFO - Postgres connect success
+[2023-05-13T19:30:55.103+0000] {base.py:73} INFO - Using connection ID 'qiberry' for task execution.
+[2023-05-13T19:30:55.122+0000] {taskinstance.py:1847} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 181, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 198, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/dag_hypothesis1_2.py", line 27, in insert_data_py
+    src.insert_rows(table=table_name, rows=[row])
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/common/sql/hooks/sql.py", line 467, in insert_rows
+    cur.execute(sql, values)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type integer: "37499.0"
+LINE 1: ...lic.cars  VALUES ('0','Jeep','260 hp @ 3,600 RPM','37499.0',...
+                                                             ^
+
+[2023-05-13T19:30:55.156+0000] {taskinstance.py:1373} INFO - Marking task as FAILED. dag_id=hypothesis1_2, task_id=insert_data, execution_date=20230513T193030, start_date=20230513T193054, end_date=20230513T193055
+[2023-05-13T19:30:55.184+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 32 for task insert_data (invalid input syntax for type integer: "37499.0"
+LINE 1: ...lic.cars  VALUES ('0','Jeep','260 hp @ 3,600 RPM','37499.0',...
+                                                             ^
+; 897)
+[2023-05-13T19:30:55.232+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 1
+[2023-05-13T19:30:55.335+0000] {taskinstance.py:2674} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,16 @@
+[2023-05-13T21:28:09.049+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hypothesis1_2.select_data manual__2023-05-13T21:27:08.597233+00:00 [queued]>
+[2023-05-13T21:28:09.065+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hypothesis1_2.select_data manual__2023-05-13T21:27:08.597233+00:00 [queued]>
+[2023-05-13T21:28:09.067+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 1
+[2023-05-13T21:28:09.090+0000] {taskinstance.py:1350} INFO - Executing <Task(PythonOperator): select_data> on 2023-05-13 21:27:08.597233+00:00
+[2023-05-13T21:28:09.100+0000] {standard_task_runner.py:57} INFO - Started process 1675 to run task
+[2023-05-13T21:28:09.106+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'hypothesis1_2', 'select_data', 'manual__2023-05-13T21:27:08.597233+00:00', '--job-id', '50', '--raw', '--subdir', 'DAGS_FOLDER/dag_hypothesis1_2.py', '--cfg-path', '/tmp/tmpj1qfsldx']
+[2023-05-13T21:28:09.111+0000] {standard_task_runner.py:85} INFO - Job 50: Subtask select_data
+[2023-05-13T21:28:09.222+0000] {task_command.py:410} INFO - Running <TaskInstance: hypothesis1_2.select_data manual__2023-05-13T21:27:08.597233+00:00 [running]> on host 9a745d3878c0
+[2023-05-13T21:28:09.421+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hypothesis1_2' AIRFLOW_CTX_TASK_ID='select_data' AIRFLOW_CTX_EXECUTION_DATE='2023-05-13T21:27:08.597233+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-05-13T21:27:08.597233+00:00'
+[2023-05-13T21:28:09.443+0000] {base.py:73} INFO - Using connection ID 'qiberry' for task execution.
+[2023-05-13T21:28:09.454+0000] {logging_mixin.py:149} INFO - Postgres connect success
+[2023-05-13T21:28:09.458+0000] {logging_mixin.py:149} INFO - 2
+[2023-05-13T21:28:09.461+0000] {python.py:183} INFO - Done. Returned value was: None
+[2023-05-13T21:28:09.488+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=hypothesis1_2, task_id=select_data, execution_date=20230513T212708, start_date=20230513T212809, end_date=20230513T212809
+[2023-05-13T21:28:09.564+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
+[2023-05-13T21:28:09.625+0000] {taskinstance.py:2674} INFO - 0 downstream tasks scheduled from follow-on schedule check

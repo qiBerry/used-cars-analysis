@@ -1,0 +1,20 @@
+[2023-05-13T21:43:29.815+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hypothesis2.delete_table manual__2023-05-13T21:43:25.375728+00:00 [queued]>
+[2023-05-13T21:43:29.857+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hypothesis2.delete_table manual__2023-05-13T21:43:25.375728+00:00 [queued]>
+[2023-05-13T21:43:29.860+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 1
+[2023-05-13T21:43:29.966+0000] {taskinstance.py:1350} INFO - Executing <Task(PostgresOperator): delete_table> on 2023-05-13 21:43:25.375728+00:00
+[2023-05-13T21:43:29.995+0000] {standard_task_runner.py:57} INFO - Started process 1994 to run task
+[2023-05-13T21:43:30.011+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'hypothesis2', 'delete_table', 'manual__2023-05-13T21:43:25.375728+00:00', '--job-id', '72', '--raw', '--subdir', 'DAGS_FOLDER/dag_hypothesis2.py', '--cfg-path', '/tmp/tmp0c8you1i']
+[2023-05-13T21:43:30.021+0000] {standard_task_runner.py:85} INFO - Job 72: Subtask delete_table
+[2023-05-13T21:43:30.157+0000] {task_command.py:410} INFO - Running <TaskInstance: hypothesis2.delete_table manual__2023-05-13T21:43:25.375728+00:00 [running]> on host 9a745d3878c0
+[2023-05-13T21:43:30.335+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hypothesis2' AIRFLOW_CTX_TASK_ID='delete_table' AIRFLOW_CTX_EXECUTION_DATE='2023-05-13T21:43:25.375728+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-05-13T21:43:25.375728+00:00'
+[2023-05-13T21:43:30.340+0000] {sql.py:262} INFO - Executing: 
+        DROP TABLE if exists public.cars
+        
+[2023-05-13T21:43:30.358+0000] {base.py:73} INFO - Using connection ID 'qiberry' for task execution.
+[2023-05-13T21:43:30.536+0000] {base.py:73} INFO - Using connection ID 'qiberry' for task execution.
+[2023-05-13T21:43:30.551+0000] {sql.py:375} INFO - Running statement: 
+        DROP TABLE if exists public.cars
+        , parameters: None
+[2023-05-13T21:43:30.594+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=hypothesis2, task_id=delete_table, execution_date=20230513T214325, start_date=20230513T214329, end_date=20230513T214330
+[2023-05-13T21:43:30.675+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
+[2023-05-13T21:43:30.757+0000] {taskinstance.py:2674} INFO - 1 downstream tasks scheduled from follow-on schedule check

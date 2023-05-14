@@ -1,0 +1,44 @@
+[2023-05-13T19:05:10.614+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hypothesis1.select_rows manual__2023-05-13T19:04:22.445175+00:00 [queued]>
+[2023-05-13T19:05:10.818+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hypothesis1.select_rows manual__2023-05-13T19:04:22.445175+00:00 [queued]>
+[2023-05-13T19:05:10.830+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 1
+[2023-05-13T19:05:10.905+0000] {taskinstance.py:1350} INFO - Executing <Task(PythonOperator): select_rows> on 2023-05-13 19:04:22.445175+00:00
+[2023-05-13T19:05:10.951+0000] {standard_task_runner.py:57} INFO - Started process 506 to run task
+[2023-05-13T19:05:10.983+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'hypothesis1', 'select_rows', 'manual__2023-05-13T19:04:22.445175+00:00', '--job-id', '23', '--raw', '--subdir', 'DAGS_FOLDER/dag_hypothesis1.py', '--cfg-path', '/tmp/tmpxchkvkiy']
+[2023-05-13T19:05:11.006+0000] {standard_task_runner.py:85} INFO - Job 23: Subtask select_rows
+[2023-05-13T19:05:11.685+0000] {task_command.py:410} INFO - Running <TaskInstance: hypothesis1.select_rows manual__2023-05-13T19:04:22.445175+00:00 [running]> on host 9a745d3878c0
+[2023-05-13T19:05:12.421+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hypothesis1' AIRFLOW_CTX_TASK_ID='select_rows' AIRFLOW_CTX_EXECUTION_DATE='2023-05-13T19:04:22.445175+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-05-13T19:04:22.445175+00:00'
+[2023-05-13T19:05:53.054+0000] {local_task_job_runner.py:299} WARNING - State of this instance has been externally set to None. Terminating instance.
+[2023-05-13T19:05:53.089+0000] {process_utils.py:135} INFO - Sending Signals.SIGTERM to group 506. PIDs of all processes in the group: [506]
+[2023-05-13T19:05:53.095+0000] {process_utils.py:86} INFO - Sending the signal Signals.SIGTERM to group 506
+[2023-05-13T19:05:53.107+0000] {taskinstance.py:1540} ERROR - Received SIGTERM. Terminating subprocesses.
+[2023-05-13T19:05:55.393+0000] {taskinstance.py:1847} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 181, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 198, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/dag_hypothesis1.py", line 17, in select_rows_py
+    df = pd.read_csv('./dags/used_cars_data.csv')
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 488, in _read
+    return parser.read(nrows)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 1047, in read
+    index, columns, col_dict = self._engine.read(nrows)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 224, in read
+    chunks = self._reader.read_low_memory(nrows)
+  File "pandas/_libs/parsers.pyx", line 801, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 857, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 843, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 1917, in pandas._libs.parsers.raise_parser_error
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2023-05-13T19:05:55.600+0000] {taskinstance.py:1373} INFO - Marking task as FAILED. dag_id=hypothesis1, task_id=select_rows, execution_date=20230513T190422, start_date=20230513T190510, end_date=20230513T190555
+[2023-05-13T19:05:55.763+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 23 for task select_rows ((psycopg2.errors.ForeignKeyViolation) insert or update on table "task_fail" violates foreign key constraint "task_fail_ti_fkey"
+DETAIL:  Key (dag_id, task_id, run_id, map_index)=(hypothesis1, select_rows, manual__2023-05-13T19:04:22.445175+00:00, -1) is not present in table "task_instance".
+
+[SQL: INSERT INTO task_fail (task_id, dag_id, run_id, map_index, start_date, end_date, duration) VALUES (%(task_id)s, %(dag_id)s, %(run_id)s, %(map_index)s, %(start_date)s, %(end_date)s, %(duration)s) RETURNING task_fail.id]
+[parameters: {'task_id': 'select_rows', 'dag_id': 'hypothesis1', 'run_id': 'manual__2023-05-13T19:04:22.445175+00:00', 'map_index': -1, 'start_date': datetime.datetime(2023, 5, 13, 19, 5, 10, 618092, tzinfo=Timezone('UTC')), 'end_date': datetime.datetime(2023, 5, 13, 19, 5, 55, 482580, tzinfo=Timezone('UTC')), 'duration': 44}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 506)
+[2023-05-13T19:05:56.259+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=506, status='terminated', exitcode=1, started='19:05:10') (506) terminated with exit code 1
